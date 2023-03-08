@@ -3,9 +3,9 @@
         "environment": [
             { "name": "NODE_PORT", "value": "${applications_developer_port}" },
             { "name": "LOGLEVEL", "value": "${log_level}" },
-            { "name": "CDN_HOST", "value": "${cdn_host}" },
-            { "name": "CDN_URL_CSS", "value": "${cdn_host}/stylesheets/services/applications-developer" },
-            { "name": "CDN_URL_JS", "value": "${cdn_host}/javascripts/app/applications-developer" },
+            { "name": "CDN_HOST", "value": "https://${cdn_host}" },
+            { "name": "CDN_URL_CSS", "value": "https://${cdn_host}/stylesheets/services/applications-developer" },
+            { "name": "CDN_URL_JS", "value": "https://${cdn_host}/javascripts/app/applications-developer" },
             { "name": "CHS_URL", "value": "${chs_url}" },
             { "name": "ACCOUNT_LOCAL_URL", "value": "${account_local_url}" },
             { "name": "DEVELOPER_SPECS_URL", "value": "${dev_specs_url}" },

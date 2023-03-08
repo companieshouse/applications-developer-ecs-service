@@ -1,0 +1,57 @@
+[
+    {
+        "environment": [
+            { "name": "NODE_PORT", "value": "${applications_developer_port}" },
+            { "name": "LOGLEVEL", "value": "${log_level}" },
+            { "name": "CDN_HOST", "value": "${cdn_host}" },
+            { "name": "CDN_URL_CSS", "value": "${cdn_host}/stylesheets/services/applications-developer" },
+            { "name": "CDN_URL_JS", "value": "${cdn_host}/javascripts/app/applications-developer" },
+            { "name": "CHS_URL", "value": "${chs_url}" },
+            { "name": "ACCOUNT_LOCAL_URL", "value": "${account_local_url}" },
+            { "name": "DEVELOPER_SPECS_URL", "value": "${dev_specs_url}" },
+            { "name": "PIWIK_URL", "value": "${piwik_url}" },
+            { "name": "PIWIK_SITE_ID", "value": "${piwik_site_id}" },
+            { "name": "REDIRECT_URI", "value": "${redirect_uri}" },
+            { "name": "CACHE_POOL_SIZE", "value": "${cache_pool_size}" },
+            { "name": "CACHE_SERVER", "value": "${cache_server}" },
+            { "name": "COOKIE_DOMAIN", "value": "${cookie_domain}" },
+            { "name": "COOKIE_NAME", "value": "${cookie_name}" },
+            { "name": "COOKIE_SECURE_ONLY", "value": "${cookie_secure_only}" },
+            { "name": "DEFAULT_SESSION_EXPIRATION", "value": "${default_session_expiration}" },
+            { "name": "OAUTH2_REDIRECT_URI", "value": "${oauth2_redirect_uri}" },
+            { "name": "OAUTH2_AUTH_URI", "value": "${oauth2_auth_uri}" },
+            { "name": "APPLICATIONS_API_URL", "value": "${account_local_url}" },
+            { "name": "APPLICATIONS_DEVELOPER_SERVICE_TEST_BASE_URL", "value": "${account_test_url}" },
+            { "name": "APPLICATIONS_DEVELOPER_SERVICE_FUTURE_BASE_URL", "value": "${account_future_url}" },
+            { "name": "DEV_HUB_URL", "value": "${dev_site_url}" },
+            { "name": "NODE_HOSTNAME", "value": "${dev_site_hostname}" }
+        ],
+        "name": "${service_name}",
+        "image": "${docker_registry}/local/applications.developer.web.ch.gov.uk:${applications_developer_version}",
+        "cpu": ${required_cpus},
+        "memory": ${required_memory},
+        "mountPoints": [],
+        "portMappings": [{
+            "containerPort": ${applications_developer_port},
+            "hostPort": 0,
+            "protocol": "tcp"
+        }],
+        "logConfiguration": {
+            "logDriver": "awslogs",
+            "options": {
+                "awslogs-create-group": "true",
+                "awslogs-region": "${aws_region}",
+                "awslogs-group": "/ecs/${name_prefix}/${service_name}",
+                "awslogs-stream-prefix": "ecs"
+            }
+        },
+        "secrets": [
+            { "name": "CHS_DEVELOPER_CLIENT_ID", "valueFrom": "${web-oauth2-client-id}" },
+            { "name": "CHS_DEVELOPER_CLIENT_SECRET", "valueFrom": "${web-oauth2-client-secret}" },
+            { "name": "COOKIE_SECRET", "valueFrom": "${web-oauth2-cookie-secret}" },
+            { "name": "DEVELOPER_OAUTH2_REQUEST_KEY", "valueFrom": "${web-oauth2-request-key}" }
+        ],
+        "volumesFrom": [],
+        "essential": true
+    }
+]

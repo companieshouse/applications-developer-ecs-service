@@ -1,4 +1,6 @@
+# ------------------------------------------------------------------------------
 # Environment
+# ------------------------------------------------------------------------------
 variable "environment" {
   type        = string
   description = "The environment name, defined in envrionments vars."
@@ -14,7 +16,9 @@ variable "aws_profile" {
   description = "The AWS profile to use for deployment."
 }
 
+# ------------------------------------------------------------------------------
 # Terraform
+# ------------------------------------------------------------------------------
 variable "aws_bucket" {
   type        = string
   description = "The bucket used to store the current terraform state files"
@@ -32,7 +36,9 @@ variable "deploy_to" {
   description = "Bucket namespace used with remote_state_bucket and state_prefix."
 }
 
+# ------------------------------------------------------------------------------
 # Docker Container
+# ------------------------------------------------------------------------------
 variable "docker_registry" {
   type        = string
   description = "The FQDN of the Docker registry."
@@ -41,7 +47,6 @@ variable "docker_registry" {
 # ------------------------------------------------------------------------------
 # Service performance and scaling configs
 # ------------------------------------------------------------------------------
-
 variable "desired_task_count" {
   type = number
   description = "The desired ECS task count for this service"
@@ -61,7 +66,6 @@ variable "required_memory" {
 # ------------------------------------------------------------------------------
 # Service environment variable configs
 # ------------------------------------------------------------------------------
-
 variable "log_level" {
   default     = "info"
   type        = string

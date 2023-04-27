@@ -60,7 +60,7 @@ variable "required_cpus" {
 variable "required_memory" {
   type = number
   description = "The required memory for this service"
-  default = 128 # defaulted low for dev environments, override for production
+  default = 256 # defaulted low for node service in dev environments, override for production
 }
 
 # ------------------------------------------------------------------------------

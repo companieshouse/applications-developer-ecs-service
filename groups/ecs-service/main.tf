@@ -26,7 +26,7 @@ module "ecs-service" {
 
   # Docker container details
   docker_registry   = var.docker_registry
-  docker_repo       = local.docker_repo
+  docker_repo       = var.docker_repo != "" ? var.docker_repo : local.docker_repo
   container_version = var.applications_developer_version
   container_port    = local.container_port
 

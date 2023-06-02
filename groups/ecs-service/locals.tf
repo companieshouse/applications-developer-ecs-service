@@ -4,7 +4,7 @@ locals {
   name_prefix               = "${local.stack_name}-${var.environment}"
   service_name              = "applications-developer"
   container_port            = "3000" # default node port required here until prod docker container is built allowing port change via env var
-  docker_repo               = var.docker_repo != "" ? var.docker_repo : "local/applications.developer.web.ch.gov.uk" # using local repo here until prod ready repo and contaner image is created
+  docker_repo               = "applications.developer.web.ch.gov.uk"
   lb_listener_rule_priority = 10
   lb_listener_paths         = ["/manage-applications*"]
   healthcheck_path          = "/manage-applications"

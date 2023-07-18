@@ -45,8 +45,8 @@ locals {
     { "name": "OAUTH2_REDIRECT_URI", "value": "${var.oauth2_redirect_uri}" },
     { "name": "OAUTH2_AUTH_URI", "value": "${var.oauth2_auth_uri}" },
     { "name": "APPLICATIONS_API_URL", "value": "${var.account_local_url}" },
-    { "name": "APPLICATIONS_DEVELOPER_SERVICE_TEST_BASE_URL", "value": "${var.account_test_url}" },
-    { "name": "APPLICATIONS_DEVELOPER_SERVICE_FUTURE_BASE_URL", "value": "${var.account_future_url}" },
+    { "name": "APPLICATIONS_API_TEST_URL", "value": "${var.account_test_url}" },
+    { "name": "APPLICATIONS_API_FUTURE_URL", "value": "${var.account_future_url}" },
     { "name": "DEV_HUB_URL", "value": "${var.dev_site_url}" },
     { "name": "NODE_HOSTNAME", "value": "${var.dev_site_hostname}" }
   ]

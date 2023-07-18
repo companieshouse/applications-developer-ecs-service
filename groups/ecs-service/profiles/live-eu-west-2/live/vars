@@ -5,6 +5,9 @@ deploy_to = "live"
 state_prefix = "env:/live"
 aws_profile = "live-eu-west-2"
 
+# scaling configs
+desired_task_count = 2 # use multi instance in live
+
 # service configs
 log_level = "trace"
 cdn_host = "d3q1r7ldqt8xxd.cloudfront.net"

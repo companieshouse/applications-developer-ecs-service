@@ -4,7 +4,19 @@ provider "aws" {
 }
 
 terraform {
-  backend "s3" {}
+  backend "s3" {
+  }
+  required_version = "~> 0.13"
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 4.54.0"
+    }
+    vault = {
+      source  = "hashicorp/vault"
+      version = "~> 3.18.0"
+    }
+  }
 }
 
 module "ecs-service" {

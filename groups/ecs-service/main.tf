@@ -18,15 +18,6 @@ terraform {
   }
 }
 
-module "secrets" {
-  source = "git@github.com:companieshouse/terraform-modules//aws/ecs/secrets?ref=1.0.192"
-
-  name_prefix = "${local.service_name}-${var.environment}"
-  environment = var.environment
-  kms_key_id  = data.aws_kms_key.kms_key.id
-  secrets     = local.parameter_store_secrets
-}
-
 module "ecs-service" {
   source = "git::git@github.com:companieshouse/terraform-library-ecs-service.git?ref=1.0.2"
 
@@ -64,6 +55,4 @@ module "ecs-service" {
   # Service environment variable and secret configs
   task_environment = local.task_environment
   task_secrets     = local.task_secrets
-
-  depends_on = [module.secrets]
 }

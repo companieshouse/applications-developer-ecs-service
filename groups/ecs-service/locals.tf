@@ -13,31 +13,22 @@ locals {
   kms_alias       = "alias/${var.aws_profile}/environment-services-kms"
   service_secrets = jsondecode(data.vault_generic_secret.service_secrets.data_json)
 
-  parameter_store_secrets = {
-    "web-oauth2-client-id"     = local.service_secrets["web-oauth2-client-id"]
-    "web-oauth2-client-secret" = local.service_secrets["web-oauth2-client-secret"]
-    "web-oauth2-cookie-secret" = local.service_secrets["web-oauth2-cookie-secret"]
-    "web-oauth2-request-key"   = local.service_secrets["web-oauth2-request-key"]
-  }
-
-  vpc_name                 = local.service_secrets["vpc_name"]
-  web-oauth2-client-id     = local.service_secrets["web-oauth2-client-id"]
-  web-oauth2-client-secret = local.service_secrets["web-oauth2-client-secret"]
-  web-oauth2-cookie-secret = local.service_secrets["web-oauth2-cookie-secret"]
-  web-oauth2-request-key   = local.service_secrets["web-oauth2-request-key"]
+  vpc_name = local.secrets_arn_map.vpc_name
 
   # create a map of secret name => secret arn to pass into ecs service module
   # using the trimprefix function to remove the prefixed path from the secret name
-  service_secrets_arn_map = {
+  # create a map of secret name => secret arn to pass into ecs service module
+  # using the trimprefix function to remove the prefixed path from the secret name
+  secrets_arn_map = {
     for sec in data.aws_ssm_parameter.secret :
     trimprefix(sec.name, "/${local.name_prefix}/") => sec.arn
   }
 
   task_secrets = [
-    { "name" : "CHS_DEVELOPER_CLIENT_ID", "valueFrom" : local.service_secrets_arn_map.web-oauth2-client-id },
-    { "name" : "CHS_DEVELOPER_CLIENT_SECRET", "valueFrom" : local.service_secrets_arn_map.web-oauth2-client-secret },
-    { "name" : "COOKIE_SECRET", "valueFrom" : local.service_secrets_arn_map.web-oauth2-cookie-secret },
-    { "name" : "DEVELOPER_OAUTH2_REQUEST_KEY", "valueFrom" : local.service_secrets_arn_map.web-oauth2-request-key }
+    { "name" : "CHS_DEVELOPER_CLIENT_ID", "valueFrom" : local.secrets_arn_map.web-oauth2-client-id },
+    { "name" : "CHS_DEVELOPER_CLIENT_SECRET", "valueFrom" : local.secrets_arn_map.web-oauth2-client-secret },
+    { "name" : "COOKIE_SECRET", "valueFrom" : local.secrets_arn_map.web-oauth2-cookie-secret },
+    { "name" : "DEVELOPER_OAUTH2_REQUEST_KEY", "valueFrom" : local.secrets_arn_map.web-oauth2-request-key }
   ]
 
   task_environment = [

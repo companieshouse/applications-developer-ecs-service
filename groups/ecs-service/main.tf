@@ -1,6 +1,5 @@
 provider "aws" {
-  region  = var.aws_region
-  version = "~> 4.54.0"
+  region = var.aws_region
 }
 
 terraform {
@@ -19,13 +18,22 @@ terraform {
   }
 }
 
+module "secrets" {
+  source = "git@github.com:companieshouse/terraform-modules//aws/ecs/secrets?ref=1.0.192"
+
+  name_prefix = "${local.service_name}-${var.environment}"
+  environment = var.environment
+  kms_key_id  = data.aws_kms_key.kms_key.id
+  secrets     = local.parameter_store_secrets
+}
+
 module "ecs-service" {
   source = "git::git@github.com:companieshouse/terraform-library-ecs-service.git?ref=1.0.2"
 
   # Environmental configuration
   environment             = var.environment
   aws_region              = var.aws_region
-  vpc_id                  = data.terraform_remote_state.networks.outputs.vpc_id
+  vpc_id                  = data.aws_vpc.vpc.id
   ecs_cluster_id          = data.aws_ecs_cluster.ecs-cluster.id
   task_execution_role_arn = data.aws_iam_role.ecs-cluster-iam-role.arn
 
@@ -56,4 +64,6 @@ module "ecs-service" {
   # Service environment variable and secret configs
   task_environment = local.task_environment
   task_secrets     = local.task_secrets
+
+  depends_on = [module.secrets]
 }

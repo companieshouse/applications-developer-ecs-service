@@ -1,11 +1,19 @@
-# Configure the remote state data source to acquire configuration
-# created through the code in ch-service-terraform/aws-mm-networks.
-data "terraform_remote_state" "networks" {
-  backend = "s3"
-  config = {
-    bucket = var.remote_state_bucket
-    key    = "${var.state_prefix}/${var.deploy_to}/${var.deploy_to}.tfstate"
-    region = var.aws_region
+data "vault_generic_secret" "stack_secrets" {
+  path = "applications/${var.aws_profile}/${var.environment}/${local.stack_name}-stack"
+}
+
+data "aws_kms_key" "kms_key" {
+  key_id = local.kms_alias
+}
+
+data "vault_generic_secret" "service_secrets" {
+  path = "applications/${var.aws_profile}/${var.environment}/${local.stack_name}-stack/${local.service_name}"
+}
+
+data "aws_vpc" "vpc" {
+  filter {
+    name   = "tag:Name"
+    values = [local.vpc_name]
   }
 }
 

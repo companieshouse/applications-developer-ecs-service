@@ -2,10 +2,6 @@ data "vault_generic_secret" "stack_secrets" {
   path = "applications/${var.aws_profile}/${var.environment}/${local.stack_name}-stack"
 }
 
-data "aws_kms_key" "kms_key" {
-  key_id = local.kms_alias
-}
-
 data "aws_vpc" "vpc" {
   filter {
     name   = "tag:Name"

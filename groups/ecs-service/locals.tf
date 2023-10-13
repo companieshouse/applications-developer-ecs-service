@@ -10,7 +10,7 @@ locals {
   healthcheck_path          = "/manage-applications"
   healthcheck_matcher       = "302" # no explicit healthcheck in this service yet, change this when added!
 
-  vpc_name = local.secrets_arn_map.vpc_name
+  vpc_name = data.aws_ssm_parameter.secret[format("/%s/%s", local.name_prefix, "vpc-name")].value
 
   # create a map of secret name => secret arn to pass into ecs service module
   # using the trimprefix function to remove the prefixed path from the secret name

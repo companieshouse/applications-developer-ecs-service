@@ -6,10 +6,6 @@ data "aws_kms_key" "kms_key" {
   key_id = local.kms_alias
 }
 
-data "vault_generic_secret" "service_secrets" {
-  path = "applications/${var.aws_profile}/${var.environment}/${local.stack_name}-stack/${local.service_name}"
-}
-
 data "aws_vpc" "vpc" {
   filter {
     name   = "tag:Name"
@@ -29,7 +25,7 @@ data "aws_lb" "dev-site-lb" {
 }
 data "aws_lb_listener" "dev-site-lb-listener" {
   load_balancer_arn = data.aws_lb.dev-site-lb.arn
-  port = 443
+  port              = 443
 }
 
 # retrieve all secrets for this stack using the stack path
@@ -39,5 +35,5 @@ data "aws_ssm_parameters_by_path" "secrets" {
 # create a list of secrets names to retrieve them in a nicer format and lookup each secret by name
 data "aws_ssm_parameter" "secret" {
   for_each = toset(data.aws_ssm_parameters_by_path.secrets.names)
-  name = each.key
+  name     = each.key
 }

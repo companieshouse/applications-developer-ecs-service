@@ -10,9 +10,6 @@ locals {
   healthcheck_path          = "/manage-applications"
   healthcheck_matcher       = "302" # no explicit healthcheck in this service yet, change this when added!
 
-  kms_alias       = "alias/${var.aws_profile}/environment-services-kms"
-  service_secrets = jsondecode(data.vault_generic_secret.service_secrets.data_json)
-
   vpc_name = local.secrets_arn_map.vpc_name
 
   # create a map of secret name => secret arn to pass into ecs service module

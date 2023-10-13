@@ -1,11 +1,15 @@
-# Configure the remote state data source to acquire configuration
-# created through the code in ch-service-terraform/aws-mm-networks.
-data "terraform_remote_state" "networks" {
-  backend = "s3"
-  config = {
-    bucket = var.remote_state_bucket
-    key    = "${var.state_prefix}/${var.deploy_to}/${var.deploy_to}.tfstate"
-    region = var.aws_region
+data "vault_generic_secret" "stack_secrets" {
+  path = "applications/${var.aws_profile}/${var.environment}/${local.stack_name}-stack"
+}
+
+data "aws_kms_key" "kms_key" {
+  key_id = local.kms_alias
+}
+
+data "aws_vpc" "vpc" {
+  filter {
+    name   = "tag:Name"
+    values = [local.vpc_name]
   }
 }
 
@@ -21,7 +25,7 @@ data "aws_lb" "dev-site-lb" {
 }
 data "aws_lb_listener" "dev-site-lb-listener" {
   load_balancer_arn = data.aws_lb.dev-site-lb.arn
-  port = 443
+  port              = 443
 }
 
 # retrieve all secrets for this stack using the stack path
@@ -31,5 +35,5 @@ data "aws_ssm_parameters_by_path" "secrets" {
 # create a list of secrets names to retrieve them in a nicer format and lookup each secret by name
 data "aws_ssm_parameter" "secret" {
   for_each = toset(data.aws_ssm_parameters_by_path.secrets.names)
-  name = each.key
+  name     = each.key
 }

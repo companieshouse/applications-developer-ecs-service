@@ -53,6 +53,7 @@ module "ecs-service" {
   required_cpus      = var.required_cpus
   required_memory    = var.required_memory
   use_fargate        = var.use_fargate
+  fargate_subnets    = local.application_subnet_ids
 
   # Service environment variable and secret configs
   task_environment = local.task_environment

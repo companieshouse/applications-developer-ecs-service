@@ -9,7 +9,11 @@ locals {
   lb_listener_paths         = ["/manage-applications*"]
   healthcheck_path          = "/manage-applications"
   healthcheck_matcher       = "302" # no explicit healthcheck in this service yet, change this when added!
+  application_subnet_ids    = data.aws_subnets.application.ids
 
+  stack_secrets              = jsondecode(data.vault_generic_secret.secrets.data_json)
+  application_subnet_pattern = local.stack_secrets["application_subnet_pattern"]
+  
   # create a map of secret name => secret arn to pass into ecs service module
   # using the trimprefix function to remove the prefixed path from the secret name
   secrets_arn_map = {

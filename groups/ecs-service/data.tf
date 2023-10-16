@@ -24,6 +24,18 @@ data "aws_lb_listener" "dev-site-lb-listener" {
   port              = 443
 }
 
+data "vault_generic_secret" "secrets" {
+  path = "applications/${var.aws_profile}/${var.environment}/${local.stack_name}-stack"
+}
+
+#Get application subnet IDs
+data "aws_subnets" "application" {
+  filter {
+    name   = "tag:Name"
+    values = [local.application_subnet_pattern]
+  }
+}
+
 # retrieve all secrets for this stack using the stack path
 data "aws_ssm_parameters_by_path" "secrets" {
   path = "/${local.name_prefix}"

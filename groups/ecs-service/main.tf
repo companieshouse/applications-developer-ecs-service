@@ -19,7 +19,7 @@ terraform {
 }
 
 module "ecs-service" {
-  source = "git::git@github.com:companieshouse/terraform-library-ecs-service.git?ref=1.0.2"
+  source = "git@github.com:companieshouse/terraform-modules//aws/ecs/ecs-service?ref=1.0.204"
 
   # Environmental configuration
   environment             = var.environment
@@ -51,6 +51,7 @@ module "ecs-service" {
   desired_task_count = var.desired_task_count
   required_cpus      = var.required_cpus
   required_memory    = var.required_memory
+  use_fargate        = var.use_fargate
 
   # Service environment variable and secret configs
   task_environment = local.task_environment

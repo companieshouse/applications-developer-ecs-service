@@ -19,7 +19,9 @@ terraform {
 }
 
 module "ecs-service" {
-  source = "git@github.com:companieshouse/terraform-modules//aws/ecs/ecs-service?ref=1.0.204"
+  #  source = "git@github.com:companieshouse/terraform-modules//aws/ecs/ecs-service?ref=1.0.204"
+  # FIXME - Revert the Feature branch reference to tag, once the PR is merged.
+  source = "git@github.com:companieshouse/terraform-modules//aws/ecs/ecs-service?ref=CC-793/add-healthcheck-to-container-task-definition"
 
   # Environmental configuration
   environment             = var.environment
@@ -34,6 +36,9 @@ module "ecs-service" {
   lb_listener_paths         = local.lb_listener_paths
   healthcheck_path          = local.healthcheck_path
   healthcheck_matcher       = local.healthcheck_matcher
+
+  # ECS Task container health check
+  use_ecs_task_container_healthcheck = true
 
   # Docker container details
   docker_registry   = var.docker_registry

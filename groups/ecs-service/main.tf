@@ -36,7 +36,7 @@ module "ecs-service" {
   healthcheck_matcher       = local.healthcheck_matcher
 
   # ECS Task container health check
-  use_ecs_task_container_healthcheck = true
+  use_task_container_healthcheck = true
 
   # Docker container details
   docker_registry   = var.docker_registry

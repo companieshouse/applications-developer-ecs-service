@@ -19,9 +19,7 @@ terraform {
 }
 
 module "ecs-service" {
-  #  source = "git@github.com:companieshouse/terraform-modules//aws/ecs/ecs-service?ref=1.0.204"
-  # FIXME - Revert the Feature branch reference to tag, once the PR is merged.
-  source = "git@github.com:companieshouse/terraform-modules//aws/ecs/ecs-service?ref=CC-793/add-healthcheck-to-container-task-definition"
+  source = "git@github.com:companieshouse/terraform-modules//aws/ecs/ecs-service?ref=1.0.207"
 
   # Environmental configuration
   environment             = var.environment

@@ -5,7 +5,7 @@ locals {
   service_name              = "applications-developer"
   container_port            = "3000" # default node port required here until prod docker container is built allowing port change via env var
   docker_repo               = "applications.developer.web.ch.gov.uk"
-  lb_listener_rule_priority = 20
+  lb_listener_rule_priority = 5
   lb_listener_paths         = ["/manage-applications*"]
   healthcheck_path          = "/manage-applications"
   healthcheck_matcher       = "302" # no explicit healthcheck in this service yet, change this when added!

@@ -6,7 +6,7 @@ state_prefix = "env:/development"
 aws_profile = "development-eu-west-2"
 
 # service configs
-log_level = "trace"
+log_level = "info"
 cdn_host = "d3uvya5a8a1ncx.cloudfront.net"
 chs_url = "https://cidev.aws.chdev.org"
 account_local_url = "https://account.cidev.aws.chdev.org"
